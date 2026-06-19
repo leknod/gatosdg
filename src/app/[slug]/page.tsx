@@ -2,6 +2,7 @@ import { MapPin, Cake } from "lucide-react";
 import Gallery from "@/components/Gallery";
 import { supabase } from "@/lib/supabase";
 import { notFound } from "next/navigation";
+import { getPhotos } from "@/lib/getPhotos";
 
 function calcAge(birthdate: string) {
   const birth = new Date(birthdate);
@@ -24,6 +25,11 @@ export default async function Page({
 }) {
   const { slug } = await params;
 
+  const photos = await getPhotos(slug);
+
+  const coverPhoto = photos[0] ?? null;
+  const galleryPhotos = photos.slice(1);
+
   const { data: cat, error } = await supabase
     .from("cats")
     .select("*, nicknames(nickname)")
@@ -40,19 +46,18 @@ export default async function Page({
       {/* Mobile container - width limited to mobile screens (max-w-md) */}
       <div className="w-full max-w-md flex flex-col pb-12">
         {/* Image Container */}
-        <div className="relative w-full aspect-[4/5] overflow-hidden">
+        <div className="relative w-full aspect-4/5 overflow-hidden">
           <img
-            src="/blacky-main.jpg"
-            alt="Blacky"
+            src={coverPhoto?.url}
+            alt={cat.name}
             className="w-full h-full object-cover"
           />
           {/* Bottom vignette gradient to blend the image into the page background */}
-          <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-[#0c0a08] to-transparent" />
+          <div className="absolute bottom-0 left-0 w-full h-24 bg-linear-to-t from-[#0c0a08] to-transparent" />
         </div>
-
         {/* Info Card Container */}
         <div className="relative -mt-16 mx-4 z-10">
-          <div className="bg-[#171511] border border-[#26211a] rounded-[32px] p-6 shadow-2xl flex flex-col gap-4">
+          <div className="bg-[#171511] border border-[#26211a] rounded-4xl p-6 shadow-2xl flex flex-col gap-4">
             {/* Title & Tags */}
             <div className="flex flex-col gap-2.5">
               <h1 className="text-white text-3xl font-bold tracking-tight">
@@ -89,9 +94,8 @@ export default async function Page({
             </p>
           </div>
         </div>
-
         {/* Photo Gallery Section */}
-        <Gallery />
+        <Gallery photos={galleryPhotos} />{" "}
       </div>
     </main>
   );
