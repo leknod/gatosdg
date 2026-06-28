@@ -23,6 +23,18 @@ export default function MobileMenu({ isOpen, onClose, cats }: MobileMenuProps) {
     return () => document.removeEventListener("keydown", handler);
   }, [isOpen, onClose]);
 
+  // Lock body scroll when menu is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
   return (
@@ -35,32 +47,20 @@ export default function MobileMenu({ isOpen, onClose, cats }: MobileMenuProps) {
       />
 
       {/* Dropdown panel — positioned below the header, no overlay */}
-      <div className="fixed top-15 left-0 right-0 z-50 flex justify-center px-4 pointer-events-none">
-        <div
-          className="w-full max-w-4xl bg-surface-800/95 border border-[#26211a] shadow-2xl rounded-3xl p-3 flex flex-col gap-1 pointer-events-auto"
-          style={{
-            animation: "slideDown 0.5s cubic-bezier(0.16,1,0.3,1) both",
-          }}
-        >
+      <div className="fixed top-20 left-0 right-0 z-50 flex justify-center px-4 pointer-events-none">
+        <div className="max-h-[calc(100dvh-5rem)] w-full max-w-4xl bg-surface-800/99 border border-[#26211a] shadow-2xl rounded-3xl p-3 grid grid-cols-1 md:grid-cols-3 gap-1 pointer-events-auto overflow-y-auto animate-slide-down">
           {cats.map((cat) => (
             <Link
               key={cat.slug}
               href={`/${cat.slug}`}
               onClick={onClose}
-              className="text-white hover:text-primary text-xs font-medium tracking-wide transition-colors px-3 py-2 rounded-xl hover:bg-primary/8 active:bg-primary/15"
+              className="text-white hover:text-primary-100 text-xs font-medium tracking-wide transition-colors px-3 py-2 rounded-xl hover:bg-primary-100/8 active:bg-primary-100/15"
             >
               {cat.name}
             </Link>
           ))}
         </div>
       </div>
-
-      <style>{`
-        @keyframes slideDown {
-          from { opacity: 0; transform: translateY(-12px) scale(0.98); }
-          to   { opacity: 1; transform: translateY(0)    scale(1);    }
-        }
-      `}</style>
     </>
   );
 }

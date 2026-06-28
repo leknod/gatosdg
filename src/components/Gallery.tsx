@@ -14,7 +14,7 @@ export default function Gallery({ photos }: { photos: Photo[] }) {
       <div className="flex justify-between items-baseline">
         <h2 className="text-white text-xl font-bold tracking-wide">Galería</h2>
 
-        <span className="text-primary text-xs font-semibold tracking-wide">
+        <span className="text-primary-100 text-xs font-semibold tracking-wide">
           {photos.length} fotos
         </span>
       </div>
@@ -45,4 +45,3 @@ export default function Gallery({ photos }: { photos: Photo[] }) {
     </section>
   );
 }
-

@@ -16,13 +16,13 @@ export default function HeaderClient({ cats }: { cats: CatData[] }) {
   return (
     <>
       <header className="w-full fixed top-0 z-50 px-4 py-4 flex justify-center pointer-events-none">
-        <div className="w-full max-w-4xl bg-surface-800/90 border border-[#26211a] shadow-lg backdrop-blur-md rounded-full px-4 flex items-center justify-between pointer-events-auto">
+        <div className="w-full max-w-4xl bg-surface-800/90 border border-[#26211a] shadow-lg backdrop-blur-md rounded-full px-4 py-2 md:py-1 flex items-center justify-between pointer-events-auto">
           <Link
             href="/"
             className="flex items-center justify-center text-white/80 text-sm font-semibold select-none"
           >
-            <Cat className="text-primary/80 mr-1 h-5 w-5" />
-            Gatos<span className="text-primary/80">DG</span>
+            <Cat className="text-primary-100/80 mr-1 h-5 w-5" />
+            Gatos<span className="text-primary-100/80">DG</span>
           </Link>
 
           <button

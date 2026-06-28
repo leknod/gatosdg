@@ -27,7 +27,7 @@ export default async function Home() {
   const catsWithCovers: CatWithCover[] = await Promise.all(
     (cats ?? []).map(async (cat: Cat) => {
       const cover = await getCoverPhoto(cat.slug);
-      return { ...cat, coverUrl: cover?.thumbUrl ?? null };
+      return { ...cat, coverUrl: cover?.url ?? null };
     }),
   );
 
@@ -44,7 +44,7 @@ export default async function Home() {
             className="group flex flex-col items-center gap-3 w-full"
           >
             {/* Circular avatar */}
-            <div className="w-full aspect-square rounded-full overflow-hidden border-2 border-[#26211a] group-hover:border-primary/60 shadow-lg group-hover:shadow-primary/20 group-hover:shadow-xl transition-all duration-300 shrink-0">
+            <div className="w-full aspect-square rounded-full overflow-hidden border-2 border-[#26211a] group-hover:border-primary-100/60 shadow-lg group-hover:shadow-primary-100/20 group-hover:shadow-xl transition-all duration-300 shrink-0">
               {cat.coverUrl ? (
                 <img
                   src={cat.coverUrl}
@@ -64,7 +64,7 @@ export default async function Home() {
               )}
             </div>
             {/* Name */}
-            <span className="text-white font-semibold text-base tracking-wide text-center group-hover:text-primary transition-colors duration-200">
+            <span className="text-white font-semibold text-base tracking-wide text-center group-hover:text-primary-100 transition-colors duration-200">
               {cat.name}
             </span>
           </Link>
@@ -80,7 +80,7 @@ export default async function Home() {
             className="group flex flex-col items-center gap-3"
           >
             {/* Circular avatar */}
-            <div className="w-full aspect-square rounded-full overflow-hidden border-2 border-[#26211a] group-hover:border-primary/60 shadow-lg group-hover:shadow-primary/20 group-hover:shadow-xl transition-all duration-300">
+            <div className="w-full aspect-square rounded-full overflow-hidden border-2 border-[#26211a] group-hover:border-primary-100/60 shadow-lg group-hover:shadow-primary-100/20 group-hover:shadow-xl transition-all duration-300">
               {cat.coverUrl ? (
                 <img
                   src={cat.coverUrl}
@@ -100,7 +100,7 @@ export default async function Home() {
               )}
             </div>
             {/* Name */}
-            <span className="text-white font-semibold text-sm tracking-wide text-center group-hover:text-primary transition-colors duration-200">
+            <span className="text-white font-semibold text-sm tracking-wide text-center group-hover:text-primary-100 transition-colors duration-200">
               {cat.name}
             </span>
           </Link>

@@ -15,8 +15,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es">
-      <body className={plusJakartaSans.className}>
+    <html lang="es" className="scrollbar-gutter-stable">
+      <body className={`${plusJakartaSans.className} bg-surface-900`}>
         <Header />
         {children}
         <Footer />

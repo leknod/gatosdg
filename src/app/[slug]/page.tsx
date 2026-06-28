@@ -42,7 +42,7 @@ export default async function Page({
 
   if (!cat || error) notFound();
   return (
-    <main className="min-h-[calc(100vh-57px)] bg-surface-900 flex flex-col items-center">
+    <main className="min-h-[calc(100vh-57px)] flex flex-col items-center">
       {/* Container - stacked on mobile/tablet, two-column grid on desktop (lg:) */}
       <div className="w-full max-w-md lg:max-w-6xl lg:grid lg:grid-cols-12 lg:gap-12 flex flex-col pb-12 px-0 lg:px-6 lg:pt-28">
         {/* Left Column: Image & Info Card */}
@@ -50,7 +50,7 @@ export default async function Page({
           {/* Cover Photo (Mobile/Tablet only) */}
           <div className="relative w-full aspect-4/5 overflow-hidden block lg:hidden">
             <img
-              src={coverPhoto?.thumbUrl ?? coverPhoto?.url}
+              src={coverPhoto?.url}
               alt={cat.name}
               className="w-full h-full object-cover"
             />
@@ -60,9 +60,9 @@ export default async function Page({
 
           {/* Avatar Container (Desktop only) */}
           <div className="hidden lg:flex justify-center -mb-16 z-20 relative">
-            <div className="w-48 h-48 rounded-full overflow-hidden border-4 border-primary shadow-2xl bg-surface-800">
+            <div className="w-48 h-48 rounded-full overflow-hidden border-4 border-primary-100 shadow-2xl bg-surface-800">
               <img
-                src={coverPhoto?.thumbUrl ?? coverPhoto?.url}
+                src={coverPhoto?.url}
                 alt={cat.name}
                 className="w-full h-full object-cover"
               />
@@ -82,7 +82,7 @@ export default async function Page({
                     {cat.nicknames.map((n: { nickname: string }) => (
                       <span
                         key={n.nickname}
-                        className="bg-[#282115] text-primary text-[10px] font-extrabold tracking-wider px-3.5 py-1 rounded-full uppercase select-none"
+                        className="bg-[#282115] text-primary-100 text-[10px] font-extrabold tracking-wider px-3.5 py-1 rounded-full uppercase select-none"
                       >
                         {n.nickname}
                       </span>
@@ -93,12 +93,12 @@ export default async function Page({
 
               {/* Age */}
               <div className="flex items-center gap-2 text-[#a59b8d] text-sm mt-2">
-                <Cake className="w-4 h-4 text-primary" />
+                <Cake className="w-4 h-4 text-primary-100" />
                 <span>{calcAge(cat.birthdate)}</span>
               </div>
               {/* Location */}
               <div className="flex items-center gap-2 text-[#a59b8d] text-sm">
-                <MapPin className="w-4 h-4 text-primary" />
+                <MapPin className="w-4 h-4 text-primary-100" />
                 <span>{cat.location}</span>
               </div>
 
