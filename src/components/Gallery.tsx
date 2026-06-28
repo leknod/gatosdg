@@ -1,6 +1,7 @@
 type Photo = {
   key: string;
   url: string;
+  thumbUrl: string;
 };
 
 export default function Gallery({ photos }: { photos: Photo[] }) {
@@ -9,11 +10,11 @@ export default function Gallery({ photos }: { photos: Photo[] }) {
   const rightColumnImages = photos.filter((_, i) => i % 2 === 1);
 
   return (
-    <section className="w-full max-w-md px-4 pt-6 pb-12 flex flex-col gap-5">
+    <section className="w-full lg:max-w-none px-4 lg:px-0 pt-6 lg:pt-0 pb-12 lg:pb-0 flex flex-col gap-5">
       <div className="flex justify-between items-baseline">
         <h2 className="text-white text-xl font-bold tracking-wide">Galería</h2>
 
-        <span className="text-[#dfaa5b] text-xs font-semibold tracking-wide">
+        <span className="text-primary text-xs font-semibold tracking-wide">
           {photos.length} fotos
         </span>
       </div>
@@ -23,7 +24,7 @@ export default function Gallery({ photos }: { photos: Photo[] }) {
           {leftColumnImages.map((photo) => (
             <img
               key={photo.key}
-              src={photo.url}
+              src={photo.thumbUrl}
               alt=""
               className="w-full rounded-lg"
             />
@@ -34,7 +35,7 @@ export default function Gallery({ photos }: { photos: Photo[] }) {
           {rightColumnImages.map((photo) => (
             <img
               key={photo.key}
-              src={photo.url}
+              src={photo.thumbUrl}
               alt=""
               className="w-full rounded-lg"
             />
@@ -44,3 +45,4 @@ export default function Gallery({ photos }: { photos: Photo[] }) {
     </section>
   );
 }
+

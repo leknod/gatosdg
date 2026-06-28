@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
-import { ListObjectsV2Command } from "@aws-sdk/client-s3";
-import { r2 } from "@/lib/r2";
+import { getPhotos } from "@/lib/getPhotos";
 
 export async function GET(
   request: Request,
@@ -9,21 +8,7 @@ export async function GET(
   const { slug } = await params;
 
   try {
-    const result = await r2.send(
-      new ListObjectsV2Command({
-        Bucket: process.env.R2_BUCKET_NAME!,
-        Prefix: `${slug}/`,
-      }),
-    );
-
-    const baseUrl = process.env.NEXT_PUBLIC_IMAGE_BASE_URL!;
-
-    const photos =
-      result.Contents?.map((file) => ({
-        key: file.Key,
-        url: `${baseUrl}/${file.Key}`,
-      })) ?? [];
-
+    const photos = await getPhotos(slug);
     return NextResponse.json(photos);
   } catch (error) {
     console.error(error);
@@ -34,3 +19,4 @@ export async function GET(
     );
   }
 }
+

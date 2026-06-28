@@ -42,60 +42,78 @@ export default async function Page({
 
   if (!cat || error) notFound();
   return (
-    <main className="min-h-[calc(100vh-57px)] bg-[#0c0a08] flex flex-col items-center">
-      {/* Mobile container - width limited to mobile screens (max-w-md) */}
-      <div className="w-full max-w-md flex flex-col pb-12">
-        {/* Image Container */}
-        <div className="relative w-full aspect-4/5 overflow-hidden">
-          <img
-            src={coverPhoto?.url}
-            alt={cat.name}
-            className="w-full h-full object-cover"
-          />
-          {/* Bottom vignette gradient to blend the image into the page background */}
-          <div className="absolute bottom-0 left-0 w-full h-24 bg-linear-to-t from-[#0c0a08] to-transparent" />
-        </div>
-        {/* Info Card Container */}
-        <div className="relative -mt-16 mx-4 z-10">
-          <div className="bg-[#171511] border border-[#26211a] rounded-4xl p-6 shadow-2xl flex flex-col gap-4">
-            {/* Title & Tags */}
-            <div className="flex flex-col gap-2.5">
-              <h1 className="text-white text-3xl font-bold tracking-tight">
-                {cat.name}
-              </h1>
-              {cat.nicknames && cat.nicknames.length > 0 && (
-                <div className="flex flex-wrap gap-2">
-                  {cat.nicknames.map((n: { nickname: string }) => (
-                    <span
-                      key={n.nickname}
-                      className="bg-[#282115] text-[#dfaa5b] text-[10px] font-extrabold tracking-wider px-3.5 py-1 rounded-full uppercase select-none"
-                    >
-                      {n.nickname}
-                    </span>
-                  ))}
-                </div>
-              )}
-            </div>
+    <main className="min-h-[calc(100vh-57px)] bg-surface-900 flex flex-col items-center">
+      {/* Container - stacked on mobile/tablet, two-column grid on desktop (lg:) */}
+      <div className="w-full max-w-md lg:max-w-6xl lg:grid lg:grid-cols-12 lg:gap-12 flex flex-col pb-12 px-0 lg:px-6 lg:pt-28">
+        {/* Left Column: Image & Info Card */}
+        <div className="col-span-12 lg:col-span-5 flex flex-col lg:sticky lg:top-28">
+          {/* Cover Photo (Mobile/Tablet only) */}
+          <div className="relative w-full aspect-4/5 overflow-hidden block lg:hidden">
+            <img
+              src={coverPhoto?.thumbUrl ?? coverPhoto?.url}
+              alt={cat.name}
+              className="w-full h-full object-cover"
+            />
+            {/* Bottom vignette gradient to blend the image into the page background */}
+            <div className="absolute bottom-0 left-0 w-full h-24 bg-linear-to-t from-surface-900 to-transparent" />
+          </div>
 
-            {/* Age */}
-            <div className="flex items-center gap-2 text-[#a59b8d] text-sm mt-2">
-              <Cake className="w-4 h-4 text-[#dfaa5b]" />
-              <span>{calcAge(cat.birthdate)}</span>
+          {/* Avatar Container (Desktop only) */}
+          <div className="hidden lg:flex justify-center -mb-16 z-20 relative">
+            <div className="w-48 h-48 rounded-full overflow-hidden border-4 border-primary shadow-2xl bg-surface-800">
+              <img
+                src={coverPhoto?.thumbUrl ?? coverPhoto?.url}
+                alt={cat.name}
+                className="w-full h-full object-cover"
+              />
             </div>
-            {/* Location */}
-            <div className="flex items-center gap-2 text-[#a59b8d] text-sm">
-              <MapPin className="w-4 h-4 text-[#dfaa5b]" />
-              <span>{cat.location}</span>
-            </div>
+          </div>
 
-            {/* Description */}
-            <p className="text-[#d6cebf] text-[15px] leading-relaxed font-normal mt-2">
-              {cat.description}
-            </p>
+          {/* Info Card Container */}
+          <div className="relative -mt-16 lg:mt-0 mx-4 lg:mx-2 z-10">
+            <div className="bg-surface-800 border border-[#26211a] rounded-4xl p-6 lg:pt-20 shadow-2xl flex flex-col gap-4">
+              {/* Title & Tags */}
+              <div className="flex flex-col gap-2.5">
+                <h1 className="text-white text-3xl font-bold tracking-tight">
+                  {cat.name}
+                </h1>
+                {cat.nicknames && cat.nicknames.length > 0 && (
+                  <div className="flex flex-wrap gap-2">
+                    {cat.nicknames.map((n: { nickname: string }) => (
+                      <span
+                        key={n.nickname}
+                        className="bg-[#282115] text-primary text-[10px] font-extrabold tracking-wider px-3.5 py-1 rounded-full uppercase select-none"
+                      >
+                        {n.nickname}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Age */}
+              <div className="flex items-center gap-2 text-[#a59b8d] text-sm mt-2">
+                <Cake className="w-4 h-4 text-primary" />
+                <span>{calcAge(cat.birthdate)}</span>
+              </div>
+              {/* Location */}
+              <div className="flex items-center gap-2 text-[#a59b8d] text-sm">
+                <MapPin className="w-4 h-4 text-primary" />
+                <span>{cat.location}</span>
+              </div>
+
+              {/* Description */}
+              <p className="text-[#d6cebf] text-[15px] leading-relaxed font-normal mt-2">
+                {cat.description}
+              </p>
+            </div>
           </div>
         </div>
-        {/* Photo Gallery Section */}
-        <Gallery photos={galleryPhotos} />{" "}
+
+        {/* Right Column: Photo Gallery Section */}
+        <div className="col-span-12 lg:col-span-7 flex flex-col mt-6 lg:mt-0">
+          <Gallery photos={galleryPhotos} />
+        </div>
       </div>
     </main>
   );
