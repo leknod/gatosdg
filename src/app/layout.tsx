@@ -4,9 +4,31 @@ import Footer from "@/components/Footer";
 import type { Metadata } from "next";
 import "./globals.css";
 
-export const metadata: Metadata = {
-  title: "GatosDG",
-  description: "Conoce a todos los gatos de GatosDG.",
+export const metadata = {
+  title: {
+    default: "GatosDG | Fotos, recuerdos y mucho ronroneo 🐱",
+    template: "%s | GatosDG",
+  },
+  description:
+    "Fotos, historias y recuerdos de nuestros gatos. Un pequeño rincón dedicado a nuestros compañeros de cuatro patas.",
+  openGraph: {
+    title: "GatosDG | Fotos, recuerdos y mucho ronroneo 🐱",
+    description:
+      "Fotos, historias y recuerdos de nuestros gatos. Un pequeño rincón dedicado a nuestros compañeros de cuatro patas.",
+    url: "https://gatosdg.vercel.app/",
+    siteName: "GatosDG",
+    images: [
+      {
+        url: "https://gatosdg.vercel.app/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "GatosDG | Fotos, recuerdos y mucho ronroneo 🐱",
+      },
+    ],
+  },
+  alternates: {
+    canonical: "https://gatosdg.vercel.app/",
+  },
 };
 
 export default function RootLayout({

@@ -34,7 +34,7 @@ export default function HeaderClient({ cats }: { cats: CatData[] }) {
             <span
               className={`block transition-transform duration-200 ${isOpen ? "rotate-90" : "rotate-0"}`}
             >
-              {isOpen ? <X size={18} /> : <Menu size={18} />}
+              {isOpen ? <X size={20} /> : <Menu size={20} />}
             </span>
           </button>
         </div>

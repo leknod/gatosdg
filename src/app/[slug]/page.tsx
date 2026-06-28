@@ -1,8 +1,9 @@
 import { MapPin, Cake } from "lucide-react";
 import Gallery from "@/components/Gallery";
-import { supabase } from "@/lib/supabase";
-import { notFound } from "next/navigation";
 import { getPhotos } from "@/lib/getPhotos";
+import { supabase } from "@/lib/supabase";
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 
 function calcAge(birthdate: string) {
   const birth = new Date(birthdate);
@@ -11,6 +12,44 @@ function calcAge(birthdate: string) {
   const months = now.getMonth() - birth.getMonth();
   if (years === 0) return `${months} meses`;
   return `${years} años`;
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+
+  const { data: cat } = await supabase
+    .from("cats")
+    .select("name")
+    .eq("slug", slug)
+    .single();
+
+  if (!cat) {
+    return {
+      title: "Gato no encontrado",
+    };
+  }
+
+  return {
+    title: cat.name,
+
+    openGraph: {
+      title: `${cat.name} | GatosDG`,
+      description:
+        "Fotos, historias y recuerdos de nuestros gatos. Un pequeño rincón dedicado a nuestros compañeros de cuatro patas.",
+      images: [
+        {
+          url: "https://gatosdg.vercel.app/og-image.png",
+          width: 1200,
+          height: 630,
+          alt: `${cat.name} | GatosDG`,
+        },
+      ],
+    },
+  };
 }
 
 export async function generateStaticParams() {
@@ -46,7 +85,7 @@ export default async function Page({
       {/* Container - stacked on mobile/tablet, two-column grid on desktop (lg:) */}
       <div className="w-full max-w-md lg:max-w-6xl lg:grid lg:grid-cols-12 lg:gap-12 flex flex-col pb-12 px-0 lg:px-6 lg:pt-28">
         {/* Left Column: Image & Info Card */}
-        <div className="col-span-12 lg:col-span-5 flex flex-col lg:sticky lg:top-28">
+        <div className="col-span-12 lg:col-span-5 flex flex-col lg:sticky lg:top-28 lg:self-start">
           {/* Cover Photo (Mobile/Tablet only) */}
           <div className="relative w-full aspect-4/5 overflow-hidden block lg:hidden">
             <img
