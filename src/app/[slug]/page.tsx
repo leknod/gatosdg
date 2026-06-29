@@ -1,4 +1,4 @@
-import { MapPin, Cake } from "lucide-react";
+import { MapPin, Cake, CalendarRange } from "lucide-react";
 import Gallery from "@/components/Gallery";
 import { getPhotos } from "@/lib/getPhotos";
 import { supabase } from "@/lib/supabase";
@@ -12,6 +12,12 @@ function calcAge(birthdate: string) {
   const months = now.getMonth() - birth.getMonth();
   if (years === 0) return `${months} meses`;
   return `${years} años`;
+}
+
+function calcPeriod(birthdate: string, departureDate: string) {
+  const birthYear = new Date(birthdate).getFullYear();
+  const departureYear = new Date(departureDate).getFullYear();
+  return `${birthYear} – ${departureYear}`;
 }
 
 export async function generateMetadata({
@@ -130,10 +136,19 @@ export default async function Page({
                 )}
               </div>
 
-              {/* Age */}
+              {/* Age / Period */}
               <div className="flex items-center gap-2 text-[#a59b8d] text-sm mt-2">
-                <Cake className="w-4 h-4 text-primary-100" />
-                <span>{calcAge(cat.birthdate)}</span>
+                {cat.is_current ? (
+                  <>
+                    <Cake className="w-4 h-4 text-primary-100" />
+                    <span>{calcAge(cat.birthdate)}</span>
+                  </>
+                ) : (
+                  <>
+                    <CalendarRange className="w-4 h-4 text-primary-100" />
+                    <span>{calcPeriod(cat.birthdate, cat.departure_date)}</span>
+                  </>
+                )}
               </div>
               {/* Location */}
               <div className="flex items-center gap-2 text-[#a59b8d] text-sm">
@@ -142,7 +157,7 @@ export default async function Page({
               </div>
 
               {/* Description */}
-              <p className="text-[#d6cebf] text-[15px] leading-relaxed font-normal mt-2">
+              <p className="whitespace-pre-line text-[#d6cebf] text-[15px] leading-relaxed font-normal mt-2">
                 {cat.description}
               </p>
             </div>

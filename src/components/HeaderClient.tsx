@@ -8,6 +8,7 @@ import MobileMenu from "./MobileMenu";
 type CatData = {
   name: string;
   slug: string;
+  coverUrl: string | null;
 };
 
 export default function HeaderClient({ cats }: { cats: CatData[] }) {

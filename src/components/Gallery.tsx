@@ -1,3 +1,9 @@
+"use client";
+
+import { useMemo, useState } from "react";
+import Lightbox, { type Slide } from "yet-another-react-lightbox";
+import "yet-another-react-lightbox/styles.css";
+
 type Photo = {
   key: string;
   url: string;
@@ -5,9 +11,24 @@ type Photo = {
 };
 
 export default function Gallery({ photos }: { photos: Photo[] }) {
-  const leftColumnImages = photos.filter((_, i) => i % 2 === 0);
+  const [open, setOpen] = useState(false);
+  const [index, setIndex] = useState(0);
 
-  const rightColumnImages = photos.filter((_, i) => i % 2 === 1);
+  const slides = useMemo<Slide[]>(
+    () => photos.map((photo) => ({ src: photo.url })),
+    [photos],
+  );
+
+  const indexedPhotos = photos.map((photo, index) => ({ photo, index }));
+
+  const leftColumnImages = indexedPhotos.filter(({ index }) => index % 2 === 0);
+
+  const rightColumnImages = indexedPhotos.filter(({ index }) => index % 2 === 1);
+
+  const openLightbox = (imageIndex: number) => {
+    setIndex(imageIndex);
+    setOpen(true);
+  };
 
   return (
     <section className="w-full lg:max-w-none px-4 lg:px-0 pt-6 lg:pt-0 pb-12 lg:pb-0 flex flex-col gap-5">
@@ -21,27 +42,53 @@ export default function Gallery({ photos }: { photos: Photo[] }) {
 
       <div className="grid grid-cols-2 gap-2">
         <div className="flex flex-col gap-2">
-          {leftColumnImages.map((photo) => (
+          {leftColumnImages.map(({ photo, index }) => (
             <img
               key={photo.key}
               src={photo.thumbUrl}
               alt=""
               className="w-full rounded-lg"
+              role="button"
+              tabIndex={0}
+              onClick={() => openLightbox(index)}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                  event.preventDefault();
+                  openLightbox(index);
+                }
+              }}
             />
           ))}
         </div>
 
         <div className="flex flex-col gap-2">
-          {rightColumnImages.map((photo) => (
+          {rightColumnImages.map(({ photo, index }) => (
             <img
               key={photo.key}
               src={photo.thumbUrl}
               alt=""
               className="w-full rounded-lg"
+              role="button"
+              tabIndex={0}
+              onClick={() => openLightbox(index)}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                  event.preventDefault();
+                  openLightbox(index);
+                }
+              }}
             />
           ))}
         </div>
       </div>
+
+      <Lightbox
+        open={open}
+        close={() => setOpen(false)}
+        index={index}
+        slides={slides}
+        controller={{ closeOnBackdropClick: true }}
+      />
     </section>
   );
 }

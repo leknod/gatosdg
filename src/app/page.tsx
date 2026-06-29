@@ -22,7 +22,7 @@ export default async function Home() {
   const { data: cats } = await supabase
     .from("cats")
     .select("name, slug")
-    .order("name");
+    .order("sort_order", { ascending: true });
 
   const catsWithCovers: CatWithCover[] = await Promise.all(
     (cats ?? []).map(async (cat: Cat) => {
