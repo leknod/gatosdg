@@ -3,6 +3,11 @@
 import { useMemo, useState } from "react";
 import Lightbox, { type Slide } from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
+import {
+  Zoom,
+  Fullscreen,
+  Slideshow,
+} from "yet-another-react-lightbox/plugins";
 
 type Photo = {
   key: string;
@@ -23,7 +28,9 @@ export default function Gallery({ photos }: { photos: Photo[] }) {
 
   const leftColumnImages = indexedPhotos.filter(({ index }) => index % 2 === 0);
 
-  const rightColumnImages = indexedPhotos.filter(({ index }) => index % 2 === 1);
+  const rightColumnImages = indexedPhotos.filter(
+    ({ index }) => index % 2 === 1,
+  );
 
   const openLightbox = (imageIndex: number) => {
     setIndex(imageIndex);
@@ -88,6 +95,7 @@ export default function Gallery({ photos }: { photos: Photo[] }) {
         index={index}
         slides={slides}
         controller={{ closeOnBackdropClick: true }}
+        plugins={[Zoom, Fullscreen, Slideshow]}
       />
     </section>
   );

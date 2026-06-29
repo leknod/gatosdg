@@ -1,10 +1,10 @@
+import "./globals.css";
 import { plusJakartaSans } from "@/lib/fonts";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import type { Metadata } from "next";
-import "./globals.css";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: {
     default: "GatosDG | Fotos, recuerdos y mucho ronroneo 🐱",
     template: "%s | GatosDG",

@@ -1,11 +1,14 @@
 @import "tailwindcss";
 
 @theme {
+  --color-primary-50: #a59b8d;
   --color-primary-100: #dfaa5b;
   --color-primary-200: #98754b;
 
   --color-surface-900: #0c0a08;
   --color-surface-800: #171511;
+  --color-surface-700: #26211a;
+  --color-surface-600: #282115;
 
   --animate-slide-down: animate-slide-down 0.5s cubic-bezier(0.16, 1, 0.3, 1)
     both;

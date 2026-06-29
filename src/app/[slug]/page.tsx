@@ -1,9 +1,9 @@
-import { MapPin, Cake, CalendarRange } from "lucide-react";
 import Gallery from "@/components/Gallery";
-import { getPhotos } from "@/lib/getPhotos";
 import { supabase } from "@/lib/supabase";
-import type { Metadata } from "next";
+import { getPhotos } from "@/lib/getPhotos";
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
+import { MapPin, Cake, CalendarRange } from "lucide-react";
 
 function calcAge(birthdate: string) {
   const birth = new Date(birthdate);
@@ -12,12 +12,6 @@ function calcAge(birthdate: string) {
   const months = now.getMonth() - birth.getMonth();
   if (years === 0) return `${months} meses`;
   return `${years} años`;
-}
-
-function calcPeriod(birthdate: string, departureDate: string) {
-  const birthYear = new Date(birthdate).getFullYear();
-  const departureYear = new Date(departureDate).getFullYear();
-  return `${birthYear} – ${departureYear}`;
 }
 
 export async function generateMetadata({
@@ -81,10 +75,6 @@ export default async function Page({
     .eq("slug", slug)
     .single();
 
-  console.log("slug buscado:", slug);
-  console.log("cat:", cat);
-  console.log("error:", error);
-
   if (!cat || error) notFound();
   return (
     <main className="min-h-[calc(100vh-57px)] flex flex-col items-center">
@@ -116,7 +106,7 @@ export default async function Page({
 
           {/* Info Card Container */}
           <div className="relative -mt-16 lg:mt-0 mx-4 lg:mx-2 z-10">
-            <div className="bg-surface-800 border border-[#26211a] rounded-4xl p-6 lg:pt-20 shadow-2xl flex flex-col gap-4">
+            <div className="bg-surface-800 border border-surface-700 rounded-4xl p-6 lg:pt-20 shadow-2xl flex flex-col gap-4">
               {/* Title & Tags */}
               <div className="flex flex-col gap-2.5">
                 <h1 className="text-white text-3xl font-bold tracking-tight">
@@ -127,7 +117,7 @@ export default async function Page({
                     {cat.nicknames.map((n: { nickname: string }) => (
                       <span
                         key={n.nickname}
-                        className="bg-[#282115] text-primary-100 text-[10px] font-extrabold tracking-wider px-3.5 py-1 rounded-full uppercase select-none"
+                        className="bg-surface-600 text-primary-100 text-[10px] font-extrabold tracking-wider px-3.5 py-1 rounded-full uppercase select-none"
                       >
                         {n.nickname}
                       </span>
@@ -137,7 +127,7 @@ export default async function Page({
               </div>
 
               {/* Age / Period */}
-              <div className="flex items-center gap-2 text-[#a59b8d] text-sm mt-2">
+              <div className="flex items-center gap-2 text-primary-50 text-sm mt-2">
                 {cat.is_current ? (
                   <>
                     <Cake className="w-4 h-4 text-primary-100" />
@@ -146,12 +136,15 @@ export default async function Page({
                 ) : (
                   <>
                     <CalendarRange className="w-4 h-4 text-primary-100" />
-                    <span>{calcPeriod(cat.birthdate, cat.departure_date)}</span>
+                    <span>
+                      {cat.birthdate.slice(0, 4)} –{" "}
+                      {cat.departure_date.slice(0, 4)}
+                    </span>
                   </>
                 )}
               </div>
               {/* Location */}
-              <div className="flex items-center gap-2 text-[#a59b8d] text-sm">
+              <div className="flex items-center gap-2 text-primary-50 text-sm">
                 <MapPin className="w-4 h-4 text-primary-100" />
                 <span>{cat.location}</span>
               </div>

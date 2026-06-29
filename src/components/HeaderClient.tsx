@@ -1,9 +1,9 @@
 "use client";
 
+import MobileMenu from "./MobileMenu";
 import { useState } from "react";
 import Link from "next/link";
 import { Menu, Cat, X } from "lucide-react";
-import MobileMenu from "./MobileMenu";
 
 type CatData = {
   name: string;
@@ -17,7 +17,7 @@ export default function HeaderClient({ cats }: { cats: CatData[] }) {
   return (
     <>
       <header className="w-full fixed top-0 z-50 px-4 py-4 flex justify-center pointer-events-none">
-        <div className="w-full max-w-4xl bg-surface-800/90 border border-[#26211a] shadow-lg backdrop-blur-md rounded-full px-4 py-2 md:py-1 flex items-center justify-between pointer-events-auto">
+        <div className="w-full max-w-4xl bg-surface-800/90 border border-surface-700 shadow-lg backdrop-blur-md rounded-full px-4 py-2 md:py-1 flex items-center justify-between pointer-events-auto">
           <Link
             href="/"
             className="flex items-center justify-center text-white/80 text-sm font-semibold select-none"
@@ -29,7 +29,7 @@ export default function HeaderClient({ cats }: { cats: CatData[] }) {
           <button
             type="button"
             onClick={() => setIsOpen((prev) => !prev)}
-            className="p-2 text-[#a59b8d] transition-all duration-200 active:scale-95 focus:outline-none cursor-pointer"
+            className="p-2 text-primary-50 transition-all duration-200 active:scale-95 focus:outline-none cursor-pointer"
             aria-label={isOpen ? "Cerrar menú" : "Abrir menú"}
           >
             <span
